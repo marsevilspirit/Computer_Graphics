@@ -33,6 +33,39 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float z
     // TODO: Copy-paste your implementation from the previous assignment.
     Eigen::Matrix4f projection;
 
+    float angle = eye_fov / 180.0 * MY_PI; 
+    float top = zNear * std::tan(angle / 2);
+    float bottom = -top;
+    float right = top * aspect_ratio;
+    float left = -right;
+
+    Eigen::Matrix4f MorthoScale(4,4); 
+    MorthoScale << 2/(right - left), 0, 0, 0,
+                   0, 2/(top - bottom), 0, 0,
+                   0, 0, 2/(zFar - zNear), 0,
+                   0, 0, 0, 1;
+
+    Eigen::Matrix4f MorthoPos(4,4);
+    MorthoPos << 1, 0, 0, -(right + left)/2,
+                 0, 1, 0, -(top + bottom)/2,
+                 0, 0, 1, -(zNear + zFar)/2,
+                 0, 0, 0, 1;
+
+    Eigen::Matrix4f Mpersp2ortho(4,4);
+    Mpersp2ortho << zNear, 0, 0, 0,
+                    0, zNear, 0, 0,
+                    0, 0, zNear + zFar, - zNear * zFar,
+                    0 , 0, 1, 0;
+
+    Eigen::Matrix4f Mt(4,4);
+    Mt << 1, 0, 0, 0,
+          0, 1, 0, 0,
+          0, 0, -1, 0,
+          0, 0, 0, 1;
+    Mpersp2ortho = Mpersp2ortho * Mt;
+
+    projection = MorthoScale * MorthoPos * Mpersp2ortho * projection; 
+
     return projection;
 }
 
