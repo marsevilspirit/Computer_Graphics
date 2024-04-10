@@ -1,24 +1,25 @@
 # Computer Graphics
 
+This is my assignment for studying Games101 course.
 
 ## pan 1:
 
-![image](./IMG/pa1.png)
+<img src="./IMG/pa1.png" alt="image" width="400" height="400">
 
 ## pan 2:
 
-![image](./IMG/pa2.png)
+<img src="./IMG/pa2.png" alt="image" width="400" height="400">
 
 ## pan 3:
 
 ### normal:
 
-![image](./IMG/pa3_normal.png)
+<img src="./IMG/pa3_normal.png" alt="image" width="400" height="400">
 
 ### phong:
 
-![image](./IMG/pa3_phong.png)
+<img src="./IMG/pa3_phong.png" alt="image" width="400" height="400">
 
 ### texture:
 
-![image](./IMG/pa3_texture.png)
+<img src="./IMG/pa3_texture.png" alt="image" width="400" height="400">
