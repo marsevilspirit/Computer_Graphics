@@ -119,7 +119,6 @@ Eigen::Vector3f texture_fragment_shader(const fragment_shader_payload& payload)
     if (payload.texture)
     {
         // TODO: Get the texture value at the texture coordinates of the current fragment
-
     }
     Eigen::Vector3f texture_color;
     texture_color << return_color.x(), return_color.y(), return_color.z();
@@ -147,7 +146,18 @@ Eigen::Vector3f texture_fragment_shader(const fragment_shader_payload& payload)
     {
         // TODO: For each light source in the code, calculate what the *ambient*, *diffuse*, and *specular* 
         // components are. Then, accumulate that result on the *result_color* object.
+        auto La = ka.cwiseProduct(amb_light_intensity); 
 
+        auto r_squared = (payload.view_pos - light.position).squaredNorm();
+
+        auto l = (light.position - payload.view_pos).normalized(); // Assume light direction + view direction
+        auto Ld = kd.cwiseProduct(light.intensity / r_squared) * std::max<float>(0, payload.normal.normalized().dot(l));
+
+        auto v = (eye_pos - payload.view_pos).normalized();
+
+        auto h = (l + v).normalized(); // Assume light direction + view direction
+        auto Ls = ks.cwiseProduct(light.intensity / r_squared) * std::pow(std::max<float>(0, payload.normal.normalized().dot(h)), p);        
+        result_color += La + Ld + Ls;
     }
 
     return result_color * 255.f;
@@ -177,7 +187,19 @@ Eigen::Vector3f phong_fragment_shader(const fragment_shader_payload& payload)
     {
         // TODO: For each light source in the code, calculate what the *ambient*, *diffuse*, and *specular* 
         // components are. Then, accumulate that result on the *result_color* object.
-        
+        // Ambient component
+        auto La = ka.cwiseProduct(amb_light_intensity); 
+
+        auto r_squared = (payload.view_pos - light.position).squaredNorm();
+
+        auto l = (light.position - payload.view_pos).normalized(); // Assume light direction + view direction
+        auto Ld = kd.cwiseProduct(light.intensity / r_squared) * std::max<float>(0, payload.normal.normalized().dot(l));
+
+        auto v = (eye_pos - payload.view_pos).normalized();
+
+        auto h = (l + v).normalized(); // Assume light direction + view direction
+        auto Ls = ks.cwiseProduct(light.intensity / r_squared) * std::pow(std::max<float>(0, payload.normal.normalized().dot(h)), p);        
+        result_color += La + Ld + Ls;
     }
 
     return result_color * 255.f;
