@@ -33,3 +33,15 @@ This is my assignment for studying Games101 course.
 <p align="center">
     <img src="./IMG/pa3_texture.png" alt="image" width="400" height="400">
 </p>
+
+### bump:
+
+<p align="center">
+    <img src="./IMG/pa3_bump.png" alt="image" width="400" height="400">
+</p>
+
+### displacement:
+
+<p align="center">
+    <img src="./IMG/pa3_displacement.png" alt="image" width="400" height="400">
+</p>
