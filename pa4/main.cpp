@@ -6,7 +6,7 @@ std::vector<cv::Point2f> control_points;
 
 void mouse_handler(int event, int x, int y, int flags, void *userdata) 
 {
-    if (event == cv::EVENT_LBUTTONDOWN && control_points.size() < 4) 
+    if (event == cv::EVENT_LBUTTONDOWN && control_points.size() < 10) 
     {
         std::cout << "Left button of the mouse is clicked - position (" << x << ", "
         << y << ")" << '\n';
@@ -33,15 +33,34 @@ void naive_bezier(const std::vector<cv::Point2f> &points, cv::Mat &window)
 cv::Point2f recursive_bezier(const std::vector<cv::Point2f> &control_points, float t) 
 {
     // TODO: Implement de Casteljau's algorithm
-    return cv::Point2f();
+    if (control_points.size() > 2)
+    {
+        std::vector<cv::Point2f> points;
+        for (int i = 0; i < control_points.size() - 1; i++)
+        {
+            cv::Point2f point((1 - t) * control_points[i] + t * control_points[i + 1]);
+            points.emplace_back(point.x, point.y);
+        }
 
+        return recursive_bezier(points, t);
+    }
+    else
+    {
+        return cv::Point2f((1 - t) * control_points[0] + t * control_points[1]);
+    }
 }
 
 void bezier(const std::vector<cv::Point2f> &control_points, cv::Mat &window) 
 {
     // TODO: Iterate through all t = 0 to t = 1 with small steps, and call de Casteljau's 
     // recursive Bezier algorithm.
+    
+    for(double t = 0.0; t <= 1.0; t += 0.001)
+    {
+        auto point = recursive_bezier(control_points, t);
 
+        window.at<cv::Vec3b>(point.y, point.x)[1] = 255;
+    }
 }
 
 int main() 
@@ -60,10 +79,10 @@ int main()
             cv::circle(window, point, 3, {255, 255, 255}, 3);
         }
 
-        if (control_points.size() == 4) 
+        if (control_points.size() == 10) 
         {
-            naive_bezier(control_points, window);
-            //   bezier(control_points, window);
+            //naive_bezier(control_points, window);
+            bezier(control_points, window);
 
             cv::imshow("Bezier Curve", window);
             cv::imwrite("my_bezier_curve.png", window);
@@ -76,5 +95,5 @@ int main()
         key = cv::waitKey(20);
     }
 
-return 0;
+    return 0;
 }

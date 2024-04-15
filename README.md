@@ -45,3 +45,8 @@ This is my assignment for studying Games101 course.
 <p align="center">
     <img src="./IMG/pa3_displacement.png" alt="image" width="400" height="400">
 </p>
+## pan 4
+
+<p align="center">
+    <img src="./IMG/pa4.png" alt="image" width="400" height="400">
+</p>
