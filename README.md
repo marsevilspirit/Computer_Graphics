@@ -55,5 +55,5 @@ This is my assignment for studying Games101 course.
 ## pan 4:
 
 <p align="center">
-    <img src="./IMG/pa5.ppm" alt="image" width="400" height="400">
+    <img src="./IMG/pa5.png" alt="image" width="400" height="400">
 </p>
